@@ -7,5 +7,6 @@ This repository can be used to create a WhatsApp chat bot that replies with the 
 4. Create an ngrok account to make your app public. Run: `ngrok http 5002 --region us`. It is important to choose the us location. Otherwise Meta will block your ngrok forwarding.
 5. Add the ngrok url as a webhook to your WhatsApp Business App as explained [here](https://business.whatsapp.com/blog/how-to-use-webhooks-from-whatsapp-business-api).
 6. Add the phone number you want to chat with to the recipients list of your WhatsApp Business App. This is step 2 in [link](https://developers.facebook.com/docs/whatsapp/cloud-api/get-started/).
-7. Run: `python3 -c "from chatbot import ChatBot; bot = ChatBot(); bot.add_new_number("49174xxxxxx")"`, where you add the phone number you want to chat with here. This will send a hello world template message to your phone number. Now you can use this chat to chat with the bot. 
-8. If you want to restart the chat, just type "new chat" in the chat.
+7. Run: `python3 chatbot.py --new-number 49174xxxxxx"`, 
+where you add the phone number you want to chat with here. This will send a hello world template message to your phone number. Now you can use this chat to chat with the bot. 
+9. If you want to restart the chat, just send "new chat" in the chat.
