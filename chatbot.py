@@ -5,13 +5,14 @@ import os
 from heyoo import WhatsApp
 
 class ChatBot:
-    def __init__(self, json_data, bot_type=None):
+    def __init__(self, json_data=None, bot_type=None):
         self.phone_number_id = os.environ["PHONE_NUMBER_ID"]
         self.access_token = os.environ["WHATSAPP_ACCESS_TOKEN"]
-        self.json_data = json_data
-        self.name = json_data['contacts'][0]['profile']['name']
-        self.phone_number = json_data['contacts'][0]['wa_id']
-        self.message = json_data['messages'][0]['text']['body']
+        if json_data is not None:
+            self.json_data = json_data
+            self.name = json_data['contacts'][0]['profile']['name']
+            self.phone_number = json_data['contacts'][0]['wa_id']
+            self.message = json_data['messages'][0]['text']['body']
         if bot_type is None:
             self.bot_type = "You will be used as a Whatsapp bot. Answer as if you are a close friend."
         else:
@@ -45,5 +46,14 @@ class ChatBot:
         self.messenger.send_message(content, self.phone_number)
         return response_dict
 
-    def add_new_number(self, phone_number):
-        self.messenger.send_template("hello_world", str(phone_number), components=[])
+    def add_new_number(self, new_phone_number):
+        self.messenger.send_template("hello_world", str(new_phone_number), components=[])
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--new-number", type=str, help="Add a new phone number that you want to start a chat with")
+    args = parser.parse_args()
+
+    bot = ChatBot()
+    bot.add_new_number(args.new_number)
