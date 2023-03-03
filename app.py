@@ -3,10 +3,9 @@ import json
 import logging
 from chatbot import ChatBot
 
+
 logging.basicConfig(filename='record.log',
                 level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-
-bot = ChatBot()
 
 app = Flask(__name__)
 
@@ -15,13 +14,14 @@ def home():
     if request.method == 'POST':
         json_data = request.json['entry'][0]['changes'][0]['value']
         if 'contacts' in json_data.keys():
-            response_dict = bot.process_user_response(json_data)
+            bot = ChatBot(json_data)
+            response_dict = bot.process_user_response()
             app.logger.info(response_dict)
             if response_dict["content"].lower() == "new chat":
                 # Erase content of outfile_name
-                open(outfile_name, 'w').close()
+                open(bot.get_outfile_name(), 'w').close()
                 return ""
-            response_dict = bot.generate_chatgpt_response(json_data)
+            response_dict = bot.generate_chatgpt_response()
             app.logger.info(response_dict)  
         return ""
 
